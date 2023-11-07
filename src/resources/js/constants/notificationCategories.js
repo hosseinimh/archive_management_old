@@ -1,0 +1,5 @@
+export const NOTIFICATION_CATEGORIES = {
+  ACCOUNT: 1,
+  TICKET: 2,
+  SYSTEM: 9,
+};
