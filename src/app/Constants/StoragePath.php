@@ -4,5 +4,5 @@ namespace App\Constants;
 
 abstract class StoragePath
 {
-    const TICKET_THREAD_FILE = 'public/storage/ticket_threads';
+    const DOCUMENT_FILE = 'public/storage/document_files';
 }

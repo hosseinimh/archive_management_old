@@ -8,12 +8,12 @@ class DocumentService
 {
     public function get(int $id): mixed
     {
-        return Model::where('id', $id)->first();
+        return Model::join('tbl_users', 'tbl_documents.user_id', 'tbl_users.id')->where('tbl_documents.id', $id)->select('tbl_documents.*', 'tbl_users.name AS user_name', 'tbl_users.family AS user_family')->first();
     }
 
     public function getPaginate(int $page, int $pageItems): mixed
     {
-        return Model::orderBy('created_at', 'DESC')->orderBy('id', 'DESC')->skip(($page - 1) * $pageItems)->take($pageItems)->get();
+        return Model::join('tbl_users', 'tbl_documents.user_id', 'tbl_users.id')->select('tbl_documents.*', 'tbl_users.name AS user_name', 'tbl_users.family AS user_family')->orderBy('tbl_documents.created_at', 'DESC')->orderBy('tbl_documents.id', 'DESC')->skip(($page - 1) * $pageItems)->take($pageItems)->get();
     }
 
     public function store(string $documentNo, ?string $paymentNo, ?string $paymentDate, string $owner, ?string $description, int $userId): mixed

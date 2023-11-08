@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('tbl_document_files', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
-            $table->string('name');
+            $table->string('path')->nullable();
+            $table->string('name')->nullable();
             $table->string('description')->nullable();
             $table->unsignedBigInteger('document_id');
             $table->unsignedBigInteger('user_id');

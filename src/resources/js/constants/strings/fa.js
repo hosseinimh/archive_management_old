@@ -249,7 +249,6 @@ export const notificationsPage = {
     _subTitle: "فهرست اعلان‌ها",
     allNotificaions: "همه اعلان‌ها",
     accountNotifications: "اعلان‌های حساب",
-    ticketNotifications: "اعلان‌های تیکت پشتیبانی",
     systemNotificaions: "اعلان‌های سیستمی",
     title: "عنوان",
     body: "متن",
@@ -263,7 +262,9 @@ export const documentsPage = {
     paymentNo: "شناسه پرداخت سند",
     paymentDate: "تاریخ پرداخت سند",
     owner: "صاحب سند",
+    user: "کاربر",
     createdAt: "تاریخ صدور سند",
+    showDocumentFilesModal: "پیوست",
     add: "ثبت سند",
 };
 
@@ -307,6 +308,7 @@ export const documentFilesModal = {
     fileDocumentFilesModalPlaceholder: "پیوست",
     descriptionDocumentFilesModal: "توضیحات",
     descriptionDocumentFilesModalPlaceholder: "توضیحات",
+    userDocumentFilesModal: "کاربر",
     addDocumentFile: "افزودن پیوست",
     editDocumentFile: "ویرایش",
 };

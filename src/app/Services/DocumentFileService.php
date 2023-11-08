@@ -2,24 +2,23 @@
 
 namespace App\Services;
 
-use App\Models\Document as Model;
+use App\Models\DocumentFile as Model;
 
 class DocumentFileService
 {
     public function get(int $id): mixed
     {
-        return Model::where('id', $id)->first();
+        return Model::join('tbl_users', 'tbl_document_files.user_id', 'tbl_users.id')->where('tbl_document_files.id', $id)->select('tbl_document_files.*', 'tbl_users.name AS user_name', 'tbl_users.family AS user_family')->first();
     }
 
     public function getAll(int $documentId): mixed
     {
-        return Model::where('document_id', $documentId)->orderBy('created_at', 'DESC')->orderBy('id', 'DESC')->get();
+        return Model::join('tbl_users', 'tbl_document_files.user_id', 'tbl_users.id')->where('document_id', $documentId)->select('tbl_document_files.*', 'tbl_users.name AS user_name', 'tbl_users.family AS user_family')->orderBy('tbl_document_files.created_at', 'ASC')->orderBy('tbl_document_files.id', 'ASC')->get();
     }
 
-    public function store(string $name, ?string $description, int $documentId, int $userId): mixed
+    public function store(?string $description, int $documentId, int $userId): mixed
     {
         $data = [
-            'name' => $name,
             'description' => $description,
             'document_id' => $documentId,
             'user_id' => $userId,
@@ -28,20 +27,26 @@ class DocumentFileService
         return $model ?? null;
     }
 
-    public function update(Model $model, string $name, ?string $description, int $documentId, int $userId): bool
+    public function update(Model $model, ?string $description, int $userId): bool
     {
         $data = [
-            'name' => $name,
             'description' => $description,
-            'document_id' => $documentId,
             'user_id' => $userId,
         ];
         $model = Model::create($data);
         return $model->update($data);
     }
 
-    public function count(): int
+    public function delete(Model $model): bool
     {
-        return Model::count();
+        if ($model->path) {
+            @unlink(storage_path('app') . '/public/storage/document_files/' . $model->path);
+        }
+        return $model->delete();
+    }
+
+    public function count(int $documentId): int
+    {
+        return Model::where('document_id', $documentId)->count();
     }
 }

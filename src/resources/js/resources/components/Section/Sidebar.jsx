@@ -144,20 +144,16 @@ function Sidebar() {
                 layoutState?.sidebarCollapsed ? "active" : ""
             }`}
         >
-            <div className="sidebar-hd d-flex align-start just-between">
+            <div className="sidebar-hd d-flex align-start just-center">
                 <div className="logo">
                     <img
                         className="logo-large dark-logo"
-                        src={`${
-                            layoutState?.theme?.name === THEMES.DARK
-                                ? `${IMAGES_PATH}/logo-dark.png`
-                                : `${IMAGES_PATH}/logo-light.png`
-                        }`}
+                        src={`${IMAGES_PATH}/logo.jpg`}
                         alt=""
                     />
                     <img
                         className="logo-sm"
-                        src={`${IMAGES_PATH}/logo-sm.png`}
+                        src={`${IMAGES_PATH}/logo.jpg`}
                         alt=""
                     />
                 </div>

@@ -17,19 +17,27 @@ export class DocumentFile extends Entity {
     }
 
     async store(documentId, file, description) {
-        return await this.handlePostFile(`${BASE_URL}/a/document_files/store`, {
-            document_id: documentId,
-            file,
-            description,
-        });
+        let data = new FormData();
+        data.append("file", file);
+        data.append("description", description);
+        return await this.handlePostFile(
+            `${BASE_URL}/a/document_files/store/${documentId}`,
+            data
+        );
     }
 
     async update(id, description) {
-        return await this.handlePostFile(
+        return await this.handlePost(
             `${BASE_URL}/a/document_files/update/${id}`,
             {
                 description,
             }
+        );
+    }
+
+    async delete(id) {
+        return await this.handlePost(
+            `${BASE_URL}/a/document_files/delete/${id}`
         );
     }
 }

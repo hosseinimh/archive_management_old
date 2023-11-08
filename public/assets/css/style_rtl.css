@@ -674,13 +674,14 @@ input[type="radio"] ~ span.error {
   padding: 1.25rem 0;
 }
 .sidebar .logo {
-  max-width: 14rem;
+  max-width: 10rem;
 }
 .sidebar.active .logo {
   max-width: 2.8rem;
 }
 .sidebar .logo img {
   width: 100%;
+  border-radius: 50%;
 }
 .menu {
   padding: 0.625rem 0;

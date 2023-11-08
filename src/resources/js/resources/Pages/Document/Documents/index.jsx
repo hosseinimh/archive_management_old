@@ -1,7 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { slideDown, slideUp } from "es6-slide-up-down";
+import { easeOutQuint } from "es6-easings";
 
 import {
+    CustomLink,
     DocumentFilesModal,
     ListPage,
     TableFooter,
@@ -13,14 +16,33 @@ import {
     general,
 } from "../../../../constants/strings/fa";
 import { USER_ROLES } from "../../../../constants";
+import { setDropDownElementAction } from "../../../../state/layout/layoutActions";
 
 const Documents = () => {
     const layoutState = useSelector((state) => state.layoutReducer);
     const userState = useSelector((state) => state.userReducer);
     const pageState = useSelector((state) => state.pageReducer);
+    const dispatch = useDispatch();
     const columnsCount =
-        userState?.user?.role === USER_ROLES.ADMINISTRATOR ? 6 : 5;
+        userState?.user?.role === USER_ROLES.ADMINISTRATOR ? 7 : 6;
     const pageUtils = new PageUtils();
+
+    const toggleActions = (e, id) => {
+        e.stopPropagation();
+        const element = document.querySelector(`#${id}`).lastChild;
+        if (layoutState?.dropDownElement) {
+            slideUp(layoutState.dropDownElement);
+            if (layoutState?.dropDownElement === element) {
+                dispatch(setDropDownElementAction(null));
+                return;
+            }
+        }
+        dispatch(setDropDownElementAction(element));
+        slideDown(element, {
+            duration: 400,
+            easing: easeOutQuint,
+        });
+    };
 
     const renderHeader = () => (
         <tr>
@@ -29,6 +51,7 @@ const Documents = () => {
             <th style={{ width: "100px" }}>{strings.paymentDate}</th>
             <th>{strings.owner}</th>
             <th style={{ width: "100px" }}>{strings.createdAt}</th>
+            <th style={{ width: "100px" }}>{strings.user}</th>
             {userState?.user?.role === USER_ROLES.ADMINISTRATOR && (
                 <th style={{ width: "100px" }}>{general.actions}</th>
             )}
@@ -44,28 +67,55 @@ const Documents = () => {
                     <td>{item.paymentDate ?? "-"}</td>
                     <td>{item.owner}</td>
                     <td>{item.createdAtFa}</td>
+                    <td>{`${item.userName} ${item.userFamily}`}</td>
                     <td>
-                        {userState?.user?.role === USER_ROLES.ADMINISTRATOR && (
-                            <button
-                                type="button"
-                                className="btn btn-primary mx-5"
-                                onClick={() => pageUtils.onEdit(item)}
-                                title={general.edit}
-                                disabled={layoutState?.loading}
-                            >
-                                {general.edit}
-                            </button>
-                        )}
                         <button
+                            id={`actions-${item.id}`}
                             type="button"
-                            className="btn btn-primary mx-5"
+                            className="btn btn-primary btn-dropdown mx-rdir-10"
                             onClick={(e) =>
-                                pageUtils.showDocumentFilesModal(e, item)
+                                toggleActions(e, `actions-${item.id}`)
                             }
-                            title={general.edit}
                             disabled={layoutState?.loading}
                         >
-                            {general.edit}
+                            <div className="d-flex">
+                                <span className="grow-1 mx-rdir-10">
+                                    {general.actions}
+                                </span>
+                                <div className="icon">
+                                    <i className="icon-arrow-down5"></i>
+                                </div>
+                            </div>
+                            <div className="dropdown-menu dropdown-menu-end">
+                                <ul>
+                                    {userState?.user?.role ===
+                                        USER_ROLES.ADMINISTRATOR && (
+                                        <li>
+                                            <CustomLink
+                                                onClick={() =>
+                                                    pageUtils.onEdit(item)
+                                                }
+                                                disabled={layoutState?.loading}
+                                            >
+                                                {general.edit}
+                                            </CustomLink>
+                                        </li>
+                                    )}
+                                    <li>
+                                        <CustomLink
+                                            onClick={(e) =>
+                                                pageUtils.showDocumentFilesModal(
+                                                    e,
+                                                    item
+                                                )
+                                            }
+                                            disabled={layoutState?.loading}
+                                        >
+                                            {strings.showDocumentFilesModal}
+                                        </CustomLink>
+                                    </li>
+                                </ul>
+                            </div>
                         </button>
                     </td>
                 </tr>

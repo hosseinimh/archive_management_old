@@ -19,6 +19,8 @@ class DocumentResource extends JsonResource
             'createdAt' => $this->created_at,
             'createdAtFa' => Helper::faDate($this->created_at),
             'userId' => intval($this->user_id),
+            'userName' => $this->user_name,
+            'userFamily' => $this->user_family,
         ];
     }
 }

@@ -5,17 +5,20 @@ namespace App\Providers;
 use App\Constants\Theme;
 use App\Http\Controllers\Administrator\DashboardController;
 use App\Http\Controllers\Administrator\DocumentController;
+use App\Http\Controllers\Administrator\DocumentFileController;
 use App\Http\Controllers\Administrator\ErrorController;
 use App\Http\Controllers\Administrator\NotificationController;
 use App\Http\Controllers\Administrator\SettingsController;
 use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\DocumentController as UserDocumentController;
+use App\Http\Controllers\User\DocumentFileController as UserDocumentFileController;
 use App\Http\Controllers\User\ErrorController as UserErrorController;
 use App\Http\Controllers\User\NotificationController as UserNotificationController;
 use App\Http\Controllers\User\SettingsController as UserSettingsController;
 use App\Http\Controllers\User\UserController as UserUserController;
 use App\Http\Resources\Document\DocumentResource;
+use App\Http\Resources\DocumentFile\DocumentFileResource;
 use App\Http\Resources\Error\ErrorResource;
 use App\Http\Resources\Notification\NotificationResource;
 use App\Http\Resources\Settings\SettingsResource;
@@ -23,6 +26,7 @@ use App\Http\Resources\User\UserResource;
 use App\Packages\Helper;
 use App\Packages\JsonResponse;
 use App\Packages\Notification;
+use App\Services\DocumentFileService;
 use App\Services\DocumentService;
 use App\Services\ErrorService;
 use App\Services\NotificationService;
@@ -100,6 +104,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(UserDocumentController::class, function ($app) {
             return new UserDocumentController(new JsonResponse(DocumentResource::class), $app->make(DocumentService::class));
+        });
+
+        $this->app->bind(DocumentFileController::class, function ($app) {
+            return new DocumentFileController(new JsonResponse(DocumentFileResource::class), $app->make(DocumentFileService::class));
+        });
+
+        $this->app->bind(UserDocumentFileController::class, function ($app) {
+            return new UserDocumentFileController(new JsonResponse(DocumentFileResource::class), $app->make(DocumentFileService::class));
         });
     }
 }

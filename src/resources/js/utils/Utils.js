@@ -112,7 +112,10 @@ const getLSVariable = (key) => {
 
         if (!text) return null;
 
-        const bytes = CryptoJS.AES.decrypt(text, "dentist");
+        const bytes = CryptoJS.AES.decrypt(
+            text,
+            "shahrdari_archive_management"
+        );
         const value = bytes.toString(CryptoJS.enc.Utf8);
 
         return value;
@@ -123,7 +126,10 @@ const getLSVariable = (key) => {
 
 const setLSVariable = (key, value) => {
     try {
-        const text = CryptoJS.AES.encrypt(value, "dentist").toString();
+        const text = CryptoJS.AES.encrypt(
+            value,
+            "shahrdari_archive_management"
+        ).toString();
         localStorage.setItem(key, text);
     } catch (error) {}
 };

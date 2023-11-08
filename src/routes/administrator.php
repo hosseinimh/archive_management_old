@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Administrator\DocumentController;
+use App\Http\Controllers\Administrator\DocumentFileController;
 use App\Http\Controllers\Administrator\ErrorController;
 use App\Http\Controllers\Administrator\SettingsController;
 use App\Http\Controllers\Administrator\UserController;
@@ -20,4 +21,8 @@ Route::middleware(['auth:sanctum', 'auth.administrator'])->group(function () {
 
     Route::post('documents/store', [DocumentController::class, 'store']);
     Route::post('documents/update/{model}', [DocumentController::class, 'update']);
+
+    Route::post('document_files/store/{document}', [DocumentFileController::class, 'store']);
+    Route::post('document_files/update/{model}', [DocumentFileController::class, 'update']);
+    Route::post('document_files/delete/{model}', [DocumentFileController::class, 'delete']);
 });
