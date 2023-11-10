@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Document as Model;
+use Illuminate\Support\Facades\DB;
 
 class DocumentService
 {
@@ -54,5 +55,10 @@ class DocumentService
     public function count(): int
     {
         return Model::count();
+    }
+
+    public function getSummary()
+    {
+        return Model::join('tbl_users', 'tbl_documents.user_id', 'tbl_users.id')->select(DB::raw('COUNT(*) AS count'), DB::raw('SUBSTRING(`document_no`,1,4) AS year'))->groupBy('year')->orderBy('year', 'ASC')->get();
     }
 }
