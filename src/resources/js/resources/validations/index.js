@@ -1,4 +1,3 @@
-import editSettingsSchema from "./Settings/EditSettingsSchema";
 import loginUserSchema from "./User/LoginUserSchema";
 import searchUserSchema from "./User/SearchUserSchema";
 import addUserSchema from "./User/AddUserSchema";
@@ -10,7 +9,6 @@ import addDocumentFileSchema from "./DocumentFile/AddDocumentFileSchema";
 import editDocumentFileSchema from "./DocumentFile/EditDocumentFileSchema";
 
 export {
-    editSettingsSchema,
     loginUserSchema,
     searchUserSchema,
     addUserSchema,

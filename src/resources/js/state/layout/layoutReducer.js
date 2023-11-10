@@ -18,6 +18,7 @@ const initialState = {
     sidebarCollapsed: false,
     sidebarProps: { link: null },
     dropDownElement: null,
+    modals: [],
     shownModal: null,
 };
 
@@ -70,10 +71,34 @@ const layoutReducer = (state = initialState, { type, payload }) => {
                 dropDownElement: payload,
             };
         case actions.SET_SHOWN_MODAL_ACTION:
-            return {
-                ...state,
-                shownModal: payload,
-            };
+            if (payload === null || payload.modal === null) {
+                let modals = [...state.modals];
+                let shownModal = null;
+                if (modals.length === 0) {
+                    shownModal = null;
+                } else {
+                    modals.pop();
+                    shownModal = modals[modals.length - 1];
+                }
+                return {
+                    ...state,
+                    modals,
+                    shownModal,
+                };
+            } else {
+                let modals = [...state.modals];
+                if (modals.find((modal) => modal.modal === payload.modal)) {
+                    return {
+                        ...state,
+                    };
+                }
+                modals.push(payload);
+                return {
+                    ...state,
+                    modals,
+                    shownModal: payload,
+                };
+            }
         default:
             return state;
     }

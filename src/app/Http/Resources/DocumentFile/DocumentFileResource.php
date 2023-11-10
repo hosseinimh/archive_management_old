@@ -13,7 +13,7 @@ class DocumentFileResource extends JsonResource
             'id' => intval($this->id),
             'path' => $this->path,
             'name' => $this->name,
-            'description' => $this->description ?? '',
+            'description' => $this->description,
             'createdAt' => $this->created_at,
             'createdAtFa' => Helper::faDate($this->created_at),
             'documentId' => intval($this->document_id),

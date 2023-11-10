@@ -22,6 +22,10 @@ const renderNotAuthRoutes = () => (
 
 const renderAuthRoutes = () => (
     <>
+        <Route
+            path={`${BASE_PATH}/document_files/download_error`}
+            element={<Pages.FallbackDownloadError />}
+        />
         <Route path={`${BASE_PATH}/documents`} element={<Pages.Documents />} />
         <Route
             path={`${BASE_PATH}/notifications`}
@@ -51,10 +55,6 @@ const renderAdministratorRoutes = () => (
             element={<Pages.EditDocument />}
         />
         <Route path={`${BASE_PATH}/errors`} element={<Pages.Errors />} />
-        <Route
-            path={`${BASE_PATH}/settings/edit`}
-            element={<Pages.EditSettings />}
-        />
         <Route
             path={`${BASE_PATH}/users/change_password/:userId`}
             element={<Pages.ChangePasswordUser />}

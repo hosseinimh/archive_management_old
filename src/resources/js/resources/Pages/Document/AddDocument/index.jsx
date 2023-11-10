@@ -6,6 +6,8 @@ import {
     InputTextAreaColumn,
     InputRow,
     InputDatePickerColumn,
+    InputTextDocumentNoColumn,
+    SelectYearModal,
 } from "../../../components";
 import { PageUtils } from "./PageUtils";
 
@@ -15,12 +17,13 @@ const AddDocument = () => {
     return (
         <FormPage pageUtils={pageUtils}>
             <InputRow>
-                <InputTextColumn
+                <InputTextDocumentNoColumn
                     field="documentNo"
                     inputStyle={{ textAlign: "left", direction: "ltr" }}
                     fullRow={false}
                     showLabel
                     prefix={`${pageUtils?.pageState?.props?.year ?? ""}/`}
+                    onPrefixClick={(e) => pageUtils.onSelectYearModal(e)}
                 />
                 <InputTextColumn
                     field="paymentNo"
@@ -36,6 +39,7 @@ const AddDocument = () => {
                 <InputTextColumn field="owner" showLabel fullRow={false} />
             </InputRow>
             <InputTextAreaColumn field="description" showLabel />
+            <SelectYearModal />
         </FormPage>
     );
 };

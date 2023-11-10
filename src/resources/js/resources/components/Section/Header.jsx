@@ -94,9 +94,9 @@ const Header = () => {
                     systemNotifications: result.systemNotifications,
                 })
             );
-            setTimeout(() => {
-                getNotifications();
-            }, 30000);
+            // setTimeout(() => {
+            //     getNotifications();
+            // }, 30000);
         }
     };
 

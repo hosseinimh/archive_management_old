@@ -7,6 +7,7 @@ import {
     CustomLink,
     DocumentFilesModal,
     ListPage,
+    ScanDocumentFile,
     TableFooter,
     TableItems,
 } from "../../../components";
@@ -50,8 +51,8 @@ const Documents = () => {
             <th style={{ width: "100px" }}>{strings.paymentNo}</th>
             <th style={{ width: "100px" }}>{strings.paymentDate}</th>
             <th>{strings.owner}</th>
-            <th style={{ width: "100px" }}>{strings.createdAt}</th>
             <th style={{ width: "100px" }}>{strings.user}</th>
+            <th style={{ width: "100px" }}>{strings.createdAt}</th>
             {userState?.user?.role === USER_ROLES.ADMINISTRATOR && (
                 <th style={{ width: "100px" }}>{general.actions}</th>
             )}
@@ -65,9 +66,9 @@ const Documents = () => {
                     <td>{item.documentNo}</td>
                     <td>{item.paymentNo ?? "-"}</td>
                     <td>{item.paymentDate ?? "-"}</td>
-                    <td>{item.owner}</td>
-                    <td>{item.createdAtFa}</td>
+                    <td>{item.owner ?? "-"}</td>
                     <td>{`${item.userName} ${item.userFamily}`}</td>
+                    <td>{item.createdAtFa}</td>
                     <td>
                         <button
                             id={`actions-${item.id}`}
@@ -136,6 +137,7 @@ const Documents = () => {
             hasAdd={userState?.user?.role === USER_ROLES.ADMINISTRATOR}
         >
             <DocumentFilesModal />
+            <ScanDocumentFile />
         </ListPage>
     );
 };

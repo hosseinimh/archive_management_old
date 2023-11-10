@@ -17,6 +17,12 @@ export class Document extends Entity {
         return await this.handlePost(`${BASE_URL}/u/documents/show/${id}`);
     }
 
+    async getAddProps(year) {
+        return await this.handlePost(`${BASE_URL}/a/documents/add_props`, {
+            year,
+        });
+    }
+
     async store(documentNo, paymentNo, paymentDate, owner, description) {
         return await this.handlePost(`${BASE_URL}/a/documents/store`, {
             document_no: documentNo,

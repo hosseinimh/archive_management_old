@@ -13,7 +13,7 @@ const editDocumentSchema = yup.object().shape({
         false
     ),
     paymentDate: dateValidator(yup.string(), strings.paymentDate, false),
-    owner: stringValidator(yup.string(), strings.owner, 1, 50),
+    owner: stringValidator(yup.string(), strings.owner, null, 50, false),
     description: stringValidator(
         yup.string(),
         strings.description,

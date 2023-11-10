@@ -2,7 +2,12 @@ import React, { useEffect } from "react";
 
 import { MESSAGE_TYPES } from "../../../constants";
 
-const AlertMessage = ({ message, code = "", messageType }) => {
+const AlertMessage = ({
+    message,
+    messageType,
+    code = "",
+    containerClassName = "",
+}) => {
     useEffect(() => {
         if (message) {
             window.scrollTo(0, 0);
@@ -16,7 +21,7 @@ const AlertMessage = ({ message, code = "", messageType }) => {
                     messageType === MESSAGE_TYPES.SUCCESS
                         ? "alert-success"
                         : "alert-danger"
-                }`}
+                } ${containerClassName}`}
             >
                 {`${message} `}
                 {code ? `(${code})` : ""}

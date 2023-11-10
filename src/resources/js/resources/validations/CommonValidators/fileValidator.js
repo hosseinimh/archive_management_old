@@ -13,7 +13,7 @@ const fileValidator = (
             "required",
             validation.requiredMessage.replace(":field", field),
             (file) => {
-                if (!file || file.size === 0) {
+                if (!file || file.length === 0 || file.size === 0) {
                     if (!required) {
                         return true;
                     }

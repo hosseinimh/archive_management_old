@@ -28,7 +28,6 @@ Route::middleware(['auth:sanctum', 'auth.logged'])->group(function () {
     Route::post('dashboard', [DashboardController::class, 'index']);
 
     Route::post('settings/show', [SettingsController::class, 'show']);
-    Route::post('settings/current_year', [SettingsController::class, 'getCurrentYear']);
 
     Route::post('notifications', [NotificationController::class, 'index']);
     Route::post('notifications/review', [NotificationController::class, 'review']);

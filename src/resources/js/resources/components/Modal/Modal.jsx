@@ -26,6 +26,7 @@ const Modal = ({
 
     useEffect(() => {
         if (
+            layoutState?.shownModal?.modal === id &&
             [MODAL_RESULT.OK, MODAL_RESULT.CANCEL, MODAL_RESULT.CLOSE].includes(
                 modalResult
             )
@@ -61,7 +62,10 @@ const Modal = ({
         <div className="modal-box" id={id}>
             <div
                 className="modal"
-                style={{ maxWidth: fullWidth ? "70%" : "35rem" }}
+                style={{
+                    maxWidth: fullWidth ? "90%" : "35rem",
+                    height: fullWidth ? "90vh" : "70vh",
+                }}
             >
                 <div className="modal-hd">
                     <span>
@@ -72,8 +76,10 @@ const Modal = ({
                         <span className="text">{title}</span>
                     </span>
                 </div>
-                <div className="modal-main">
-                    <div>{children}</div>
+                <div className="modal-main grow-1">
+                    <div className="grow-1 d-flex d-flex-column">
+                        {children}
+                    </div>
                     {footer && (
                         <div className="modal-footer pd-td-10">
                             <>{footer}</>

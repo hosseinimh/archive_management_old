@@ -20,6 +20,7 @@ import InputSelectColumn from "./Input/InputSelectColumn";
 import InputSwitchCheckboxColumn from "./Input/InputSwitchCheckboxColumn";
 import InputTextAreaColumn from "./Input/InputTextAreaColumn";
 import InputTextColumn from "./Input/InputTextColumn";
+import InputTextDocumentNoColumn from "./Input/InputTextDocumentNoColumn";
 
 // Layout
 import FormPageLayout from "./Layout/FormPageLayout";
@@ -37,6 +38,8 @@ import Modal from "./Modal/Modal";
 import ProfileModal from "./Modal/ProfileModal";
 import PromptModal from "./Modal/PromptModal";
 import DocumentFilesModal from "./Modal/DocumentFilesModal";
+import ScanDocumentFile from "./Modal/ScanDocumentFile";
+import SelectYearModal from "./Modal/SelectYearModal";
 
 // Page
 import BlankPage from "./Page/BlankPage";
@@ -78,6 +81,7 @@ export {
     InputSwitchCheckboxColumn,
     InputTextAreaColumn,
     InputTextColumn,
+    InputTextDocumentNoColumn,
     FormPageLayout,
     NotAuthPageLayout,
     PageLayout,
@@ -87,6 +91,8 @@ export {
     ProfileModal,
     PromptModal,
     DocumentFilesModal,
+    ScanDocumentFile,
+    SelectYearModal,
     BlankPage,
     ListPage,
     FormPage,

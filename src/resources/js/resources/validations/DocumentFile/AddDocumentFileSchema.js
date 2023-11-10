@@ -7,9 +7,8 @@ const addDocumentFileSchema = yup.object().shape({
     fileDocumentFilesModal: fileValidator(
         yup.mixed(),
         strings.fileDocumentFilesModal,
-        4 * 1024 * 1024,
-        ["jpg", "jpeg", "png", "tiff", "pdf", "doc", "docx"],
-        false
+        10 * 1024 * 1024,
+        ["jpg", "jpeg", "png", "tiff", "pdf", "doc", "docx"]
     ),
     descriptionDocumentFilesModal: stringValidator(
         yup.string(),

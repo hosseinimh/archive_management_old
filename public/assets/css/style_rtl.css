@@ -1229,6 +1229,8 @@ input[type="radio"] ~ span.error {
   transform: scale(0.8);
   transition: all 0.3s;
   align-self: safe center;
+  display: flex;
+  flex-direction: column;
 }
 .modal-hd {
   padding: 1rem 1.25rem;
@@ -1243,7 +1245,6 @@ input[type="radio"] ~ span.error {
 .modal-main {
   color: var(--placeholder);
   position: relative;
-  max-height: 70vh;
   display: flex;
   flex-direction: column;
 }
@@ -11012,4 +11013,8 @@ div.dataTables_wrapper {
   z-index: 9;
   padding: 0.2rem 1rem !important;
   direction: ltr;
+}
+
+.dvs-web-viewer {
+  border-radius: 0.625rem;
 }

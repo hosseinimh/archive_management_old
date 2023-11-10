@@ -1,6 +1,7 @@
 const BASE_PATH = `/panel`;
 const ASSETS_PATH = "/assets";
 const IMAGES_PATH = "/assets/images";
+const JS_PATH = "/assets/js";
 const STORAGE_PATH = "/storage";
 const PAGE_ITEMS = 10;
 const THEMES = {
@@ -91,6 +92,7 @@ export {
     BASE_PATH,
     ASSETS_PATH,
     IMAGES_PATH,
+    JS_PATH,
     STORAGE_PATH,
     PAGE_ITEMS,
     THEMES,

@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { BASE_PATH, IMAGES_PATH, THEMES, USER_ROLES } from "../../../constants";
+import { BASE_PATH, IMAGES_PATH, USER_ROLES } from "../../../constants";
 import { fetchLogoutAction } from "../../../state/user/userActions";
 import { CustomLink } from "../";
 import { sidebar as strings } from "../../../constants/strings/fa";
@@ -26,12 +26,6 @@ const menuItems = {
         path: `${BASE_PATH}/errors`,
         icon: "icon-category4",
         label: strings.errors,
-    },
-    SETTINGS: {
-        page: "Settings",
-        path: `${BASE_PATH}/settings/edit`,
-        icon: "icon-setting-24",
-        label: strings.setttings,
     },
     NOTIFICATIONS: {
         page: "Notifications",
@@ -108,12 +102,7 @@ function Sidebar() {
         </>
     );
 
-    const renderBaseItems = () => (
-        <>
-            <div className="menu-title">{strings.baseItems}</div>
-            <ul>{renderMenuItem(menuItems.SETTINGS)}</ul>
-        </>
-    );
+    const renderBaseItems = () => <></>;
 
     const renderSystemItems = () => (
         <>

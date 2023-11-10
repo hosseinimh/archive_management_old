@@ -11,12 +11,17 @@ class DocumentService
         return Model::join('tbl_users', 'tbl_documents.user_id', 'tbl_users.id')->where('tbl_documents.id', $id)->select('tbl_documents.*', 'tbl_users.name AS user_name', 'tbl_users.family AS user_family')->first();
     }
 
+    public function getLastInYear(int $year): mixed
+    {
+        return Model::join('tbl_users', 'tbl_documents.user_id', 'tbl_users.id')->where('tbl_documents.document_no', 'LIKE', $year . '/%')->select('tbl_documents.*', 'tbl_users.name AS user_name', 'tbl_users.family AS user_family')->orderBy('tbl_documents.document_no', 'DESC')->first();
+    }
+
     public function getPaginate(int $page, int $pageItems): mixed
     {
         return Model::join('tbl_users', 'tbl_documents.user_id', 'tbl_users.id')->select('tbl_documents.*', 'tbl_users.name AS user_name', 'tbl_users.family AS user_family')->orderBy('tbl_documents.created_at', 'DESC')->orderBy('tbl_documents.id', 'DESC')->skip(($page - 1) * $pageItems)->take($pageItems)->get();
     }
 
-    public function store(string $documentNo, ?string $paymentNo, ?string $paymentDate, string $owner, ?string $description, int $userId): mixed
+    public function store(string $documentNo, ?string $paymentNo, ?string $paymentDate, ?string $owner, ?string $description, int $userId): mixed
     {
         $paymentDate = strlen($paymentDate) === 8 ? substr($paymentDate, 0, 4) . "/" . substr($paymentDate, 4, 2) . "/" . substr($paymentDate, 6) : null;
         $data = [
@@ -32,7 +37,7 @@ class DocumentService
         return $model ?? null;
     }
 
-    public function update(Model $model, string $documentNo, ?string $paymentNo, ?string $paymentDate, string $owner, ?string $description, int $userId): bool
+    public function update(Model $model, string $documentNo, ?string $paymentNo, ?string $paymentDate, ?string $owner, ?string $description, int $userId): bool
     {
         $paymentDate = strlen($paymentDate) === 8 ? substr($paymentDate, 0, 4) . "/" . substr($paymentDate, 4, 2) . "/" . substr($paymentDate, 6) : null;
         $data = [

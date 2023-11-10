@@ -1,12 +1,18 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { Document as Entity, Settings } from "../../../../http/entities";
+import { Document as Entity } from "../../../../http/entities";
 import { BasePageUtils } from "../../../../utils/BasePageUtils";
 import { BASE_PATH } from "../../../../constants";
 import { addDocumentSchema as schema } from "../../../validations";
-import { addDocumentPage as strings } from "../../../../constants/strings/fa";
-import { setLoadingAction } from "../../../../state/layout/layoutActions";
+import {
+    general,
+    addDocumentPage as strings,
+} from "../../../../constants/strings/fa";
+import {
+    setLoadingAction,
+    setShownModalAction,
+} from "../../../../state/layout/layoutActions";
 import { setPagePropsAction } from "../../../../state/page/pageActions";
 
 export class PageUtils extends BasePageUtils {
@@ -20,6 +26,7 @@ export class PageUtils extends BasePageUtils {
         this.initialPageProps = {
             year: null,
         };
+        this.handleSelectYearSubmit = this.handleSelectYearSubmit.bind(this);
     }
 
     onLoad() {
@@ -27,13 +34,41 @@ export class PageUtils extends BasePageUtils {
         this.getAddProps();
     }
 
-    async getAddProps() {
+    onSelectYearModal(e) {
+        e.stopPropagation();
+        this.dispatch(
+            setShownModalAction("selectYearModal", {
+                title: strings.removeMessageTitle,
+                description: "",
+                submitTitle: general.yes,
+                cancelTitle: general.no,
+                onSubmit: this.handleSelectYearSubmit,
+            })
+        );
+    }
+
+    async getAddProps(year = null) {
         try {
             this.dispatch(setLoadingAction(true));
-            const settings = new Settings();
-            const result = await settings.getCurrentYear();
+            const result = await this.entity.getAddProps(year);
             if (result) {
-                this.dispatch(setPagePropsAction({ year: result.year }));
+                this.dispatch(
+                    setPagePropsAction({
+                        year: result.year,
+                    })
+                );
+                if (result.item) {
+                    if (!isNaN(result.item.documentNo.substring(5))) {
+                        let lastDocumentNo = parseInt(
+                            result.item.documentNo.substring(5)
+                        );
+                        this.useForm.setValue("documentNo", lastDocumentNo + 1);
+                    } else {
+                        this.useForm.setValue("documentNo", 1);
+                    }
+                } else {
+                    this.useForm.setValue("documentNo", 1);
+                }
             }
         } catch {
         } finally {
@@ -50,5 +85,11 @@ export class PageUtils extends BasePageUtils {
             data.description
         );
         super.onModifySubmit(promise);
+    }
+
+    handleSelectYearSubmit(result, data) {
+        if (result === true) {
+            this.getAddProps(data.year);
+        }
     }
 }

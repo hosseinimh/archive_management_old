@@ -23,7 +23,7 @@ class UpdateDocumentRequest extends FormRequest
             'document_no' => 'required|unique:tbl_documents,document_no,' . $this->model->id,
             'payment_no' => 'max:50',
             'payment_date' => 'sometimes|numeric|gte:14000101',
-            'owner' => 'required|max:50',
+            'owner' => 'max:50',
             'description' => 'max:1000',
         ];
     }
@@ -36,7 +36,6 @@ class UpdateDocumentRequest extends FormRequest
             'payment_no.max' => __('document.payment_no_max'),
             'payment_date.numeric' => __('document.payment_date_numeric'),
             'payment_date.gte' => __('document.payment_date_gte'),
-            'owner.required' => __('document.owner_required'),
             'owner.max' => __('document.owner_max'),
             'description.max' => __('document.description_max'),
         ];

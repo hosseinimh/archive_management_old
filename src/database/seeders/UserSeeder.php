@@ -16,6 +16,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->create(['username' => 'admin', 'role' => Role::ADMINISTRATOR, 'is_active' => Status::ACTIVE]);
+        User::factory()->create(['username' => 'admin', 'name' => 'مصطفی', 'family' => 'اکبری', 'mobile' => '09151260936', 'role' => Role::ADMINISTRATOR, 'is_active' => Status::ACTIVE]);
     }
 }

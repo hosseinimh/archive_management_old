@@ -58,14 +58,14 @@ export class PageUtils extends BasePageUtils {
         );
         this.useForm.setValue(
             "documentNo",
-            result.item.documentNo.substring(5)
+            result.item.documentNo ? result.item.documentNo.substring(5) : ""
         );
-        this.useForm.setValue("paymentNo", result.item.paymentNo);
+        this.useForm.setValue("paymentNo", result.item.paymentNo ?? "");
         if (result.item.paymentDate) {
             this.useForm.setValue("paymentDate", result.item.paymentDate);
         }
-        this.useForm.setValue("owner", result.item.owner);
-        this.useForm.setValue("description", result.item.description);
+        this.useForm.setValue("owner", result.item.owner ?? "");
+        this.useForm.setValue("description", result.item.description ?? "");
     }
 
     async onSubmit(data) {

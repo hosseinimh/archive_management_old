@@ -19,10 +19,12 @@ Route::middleware(['auth:sanctum', 'auth.administrator'])->group(function () {
 
     Route::post('settings/update', [SettingsController::class, 'update']);
 
+    Route::post('documents/add_props', [DocumentController::class, 'getAddProps']);
     Route::post('documents/store', [DocumentController::class, 'store']);
     Route::post('documents/update/{model}', [DocumentController::class, 'update']);
 
     Route::post('document_files/store/{document}', [DocumentFileController::class, 'store']);
+    Route::post('document_files/store_via_scan/{document}', [DocumentFileController::class, 'storeViaScan']);
     Route::post('document_files/update/{model}', [DocumentFileController::class, 'update']);
     Route::post('document_files/delete/{model}', [DocumentFileController::class, 'delete']);
 });

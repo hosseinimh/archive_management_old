@@ -1,6 +1,6 @@
 import Dashboard from "./Dashboard";
 import Errors from "./Error/Errors";
-import EditSettings from "./Settings/EditSettings";
+import FallbackDownloadError from "./Download/FallbackDownloadError";
 import Notifications from "./Notification/Notifications";
 import Login from "./User/Login";
 import AddUser from "./User/AddUser";
@@ -16,7 +16,7 @@ import EditDocument from "./Document/EditDocument";
 export {
     Dashboard,
     Errors,
-    EditSettings,
+    FallbackDownloadError,
     Notifications,
     Login,
     AddUser,

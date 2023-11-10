@@ -1,4 +1,4 @@
-import { BASE_URL } from "../../constants";
+import { BASE_PATH, BASE_URL } from "../../constants";
 import Entity from "./Entity";
 
 export class DocumentFile extends Entity {
@@ -39,5 +39,13 @@ export class DocumentFile extends Entity {
         return await this.handlePost(
             `${BASE_URL}/a/document_files/delete/${id}`
         );
+    }
+
+    download(id) {
+        window.open(`${BASE_PATH}/document_files/download/${id}`);
+    }
+
+    getUploadScanEndpoint(documentId) {
+        return `/a/document_files/store_via_scan/${documentId}`;
     }
 }

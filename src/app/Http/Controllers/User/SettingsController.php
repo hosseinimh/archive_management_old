@@ -19,10 +19,4 @@ class SettingsController extends Controller
     {
         return $this->onItem($this->service->get());
     }
-
-    public function getCurrentYear(): HttpJsonResponse
-    {
-        $year = Helper::getFaCurrentDate()[0];
-        return $this->onOk(['year' => $year]);
-    }
 }

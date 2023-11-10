@@ -33,7 +33,6 @@ class DocumentFileService
             'description' => $description,
             'user_id' => $userId,
         ];
-        $model = Model::create($data);
         return $model->update($data);
     }
 

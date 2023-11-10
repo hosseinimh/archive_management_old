@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('document_no')->unique();
             $table->string('payment_no')->nullable();
             $table->string('payment_date')->nullable();
-            $table->string('owner');
+            $table->string('owner')->nullable();
             $table->string('description')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

@@ -15,7 +15,7 @@ class DocumentResource extends JsonResource
             'paymentNo' => $this->payment_no,
             'paymentDate' => $this->payment_date,
             'owner' => $this->owner,
-            'description' => $this->description ?? '',
+            'description' => $this->description,
             'createdAt' => $this->created_at,
             'createdAtFa' => Helper::faDate($this->created_at),
             'userId' => intval($this->user_id),

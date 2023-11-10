@@ -36,6 +36,7 @@ export const general = {
     submitLoading: "لطفا صبر کنید ...",
     networkError: "خطا در دریافت اطلاعات از سرور",
     fallbackError: "خطایی در نمایش صفحه مورد نظر رخ داد.",
+    fallbackDownloadError: "فایل مورد نظر یافت نشد.",
     fallbackReturnHome: "بازگشت به داشبورد مدیریت",
     copiedToClipboard: ":item کپی شد!",
     removeMessage: "آیا مطمئن به حذف این آیتم می‌باشید؟",
@@ -115,8 +116,6 @@ export const sidebar = {
     dashboard: "داشبورد",
     errors: "خطاها",
     quickItems: "دسترسی سریع",
-    baseItems: "اطلاعات پایه",
-    setttings: "تنظیمات",
     documents: "بایگانی",
     systemItems: "امکانات",
     users: "کاربران",
@@ -131,12 +130,6 @@ export const sidebar = {
 export const dashboardPage = {
     _title: "داشبورد",
     _subTitle: "سامانه در یک نگاه",
-};
-
-export const editSettingsPage = {
-    _title: "ویرایش تنظیمات پایه",
-    _subTitle: "تنظیمات سامانه را ویرایش کنید.",
-    submitted: "ویرایش تنظیمات پایه با موفقیت انجام شد.",
 };
 
 export const errorsPage = {
@@ -244,6 +237,27 @@ export const genderTypes = {
     female: "زن",
 };
 
+export const years = {
+    year1398: "1398",
+    year1399: "1399",
+    year1400: "1400",
+    year1401: "1401",
+    year1402: "1402",
+    year1403: "1403",
+    year1404: "1404",
+    year1405: "1405",
+    year1406: "1406",
+    year1407: "1407",
+    year1408: "1408",
+    year1409: "1409",
+    year1410: "1410",
+};
+
+export const selectYearModal = {
+    selectYearModalTitle: "انتخاب سال",
+    selectSelectYearModal: "سال",
+};
+
 export const notificationsPage = {
     _title: "اعلان‌ها",
     _subTitle: "فهرست اعلان‌ها",
@@ -264,7 +278,7 @@ export const documentsPage = {
     owner: "صاحب سند",
     user: "کاربر",
     createdAt: "تاریخ صدور سند",
-    showDocumentFilesModal: "پیوست",
+    showDocumentFilesModal: "مدارک پیوست",
     add: "ثبت سند",
 };
 
@@ -301,14 +315,26 @@ export const editDocumentPage = {
 };
 
 export const documentFilesModal = {
-    _title: "پیوست",
-    _subTitle: "فهرست فایل‌های پیوست",
-    nameDocumentFilesModal: "نام فایل",
-    fileDocumentFilesModal: "پیوست",
-    fileDocumentFilesModalPlaceholder: "پیوست",
+    _title: "مدارک پیوست",
+    _subTitle: "فهرست مدارک پیوست",
+    nameDocumentFilesModal: "پیوست",
+    fileDocumentFilesModal: "پیوست (حداکثر 10 مگابایت)",
+    fileDocumentFilesModalPlaceholder: "پیوست (حداکثر 10 مگابایت)",
     descriptionDocumentFilesModal: "توضیحات",
     descriptionDocumentFilesModalPlaceholder: "توضیحات",
+    createdAtFaDocumentFilesModal: "تاریخ",
     userDocumentFilesModal: "کاربر",
+    scan: "اسکن مدارک",
     addDocumentFile: "افزودن پیوست",
     editDocumentFile: "ویرایش",
+    removeMessageTitle: "آیا مطمئن به حذف این پیوست می‌باشید؟",
+};
+
+export const scanDocumentFileModal = {
+    _title: "اسکن مدارک",
+    document: "تصویر پیوست",
+    scan: "اسکن",
+    save: "ذخیره",
+    notScannedFile: "فایلی اسکن نشده است",
+    uploadedError: "ذخیره فایل اسکن‌شده با خطا مواجه شد.",
 };

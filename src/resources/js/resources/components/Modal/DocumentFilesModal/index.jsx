@@ -17,6 +17,7 @@ import {
     InputTextColumn,
     InputFileColumn,
     AlertMessage,
+    PromptModal,
 } from "../..";
 import {
     addDocumentFileSchema,
@@ -25,6 +26,7 @@ import {
 import {
     setDropDownElementAction,
     setLoadingAction,
+    setShownModalAction,
 } from "../../../../state/layout/layoutActions";
 import { clearMessageAction } from "../../../../state/message/messageActions";
 import { DocumentFile as Entity } from "../../../../http/entities";
@@ -49,7 +51,7 @@ function DocumentFilesModal() {
     });
     const entity = new Entity();
     const columnsCount =
-        userState?.user?.role === USER_ROLES.ADMINISTRATOR ? 4 : 3;
+        userState?.user?.role === USER_ROLES.ADMINISTRATOR ? 5 : 4;
 
     useEffect(() => {
         if (isAdd) {
@@ -133,26 +135,38 @@ function DocumentFilesModal() {
         });
     };
 
+    const onDownload = (item) => {
+        entity.download(item.id);
+    };
+
     const onEdit = (item) => {
+        setMessage(null);
+        addForm.reset();
+        editForm.reset();
+        setFile(null);
         setIsAdd(false);
-        editForm.setValue("descriptionDocumentFilesModal", item.description);
+        editForm.setValue(
+            "descriptionDocumentFilesModal",
+            item.description ?? ""
+        );
     };
 
     const onEditCanclled = () => {
-        resetForm();
+        editForm.reset();
         setIsAdd(true);
     };
 
-    const onRemove = async (item) => {
-        dispatch(setLoadingAction(true));
-        dispatch(clearMessageAction());
-        const result = await entity.delete(item?.id);
-        dispatch(setLoadingAction(false));
-        if (result === null) {
-            setItems(null);
-        } else {
-            setItems(result.items);
-        }
+    const onRemove = async (e, item) => {
+        e.stopPropagation();
+        dispatch(
+            setShownModalAction("promptModal", {
+                title: strings.removeMessageTitle,
+                description: `${item.name}`,
+                submitTitle: general.yes,
+                cancelTitle: general.no,
+                onSubmit: remove(item),
+            })
+        );
     };
 
     const onChangeFile = (e) => {
@@ -162,12 +176,27 @@ function DocumentFilesModal() {
         }
     };
 
+    const onScan = (e) => {
+        dispatch(clearMessageAction());
+        e.stopPropagation();
+        dispatch(
+            setShownModalAction("scanDocumentFileModal", {
+                document: layoutState?.shownModal?.props?.document,
+            })
+        );
+    };
+
     const onClose = () => {
         resetForm();
         document
             .querySelector("#documentFilesModal")
             .querySelector(".modal-main")
             .firstChild.scrollTo(0, 0);
+    };
+
+    const close = () => {
+        onClose();
+        dispatch(setShownModalAction(null));
     };
 
     const fillForm = async () => {
@@ -187,12 +216,13 @@ function DocumentFilesModal() {
 
     const resetForm = () => {
         dispatch(clearMessageAction());
+        setItems(null);
+        setMessage(null);
         addForm.reset();
         editForm.reset();
+        setIsAdd(true);
         setFile(null);
     };
-
-    const onSelect = async () => {};
 
     const onSubmit = async (data) => {
         dispatch(setLoadingAction(true));
@@ -207,6 +237,19 @@ function DocumentFilesModal() {
                   layoutState?.shownModal?.props?.document?.id,
                   data.descriptionDocumentFilesModal
               );
+        resetForm();
+        dispatch(setLoadingAction(false));
+        if (result === null) {
+            setItems(null);
+        } else {
+            setItems(result.items);
+        }
+    };
+
+    const remove = (item) => async () => {
+        dispatch(setLoadingAction(true));
+        dispatch(clearMessageAction());
+        const result = await entity.delete(item?.id);
         dispatch(setLoadingAction(false));
         if (result === null) {
             setItems(null);
@@ -220,6 +263,9 @@ function DocumentFilesModal() {
             <th style={{ width: "100px" }}>{strings.nameDocumentFilesModal}</th>
             <th>{strings.descriptionDocumentFilesModal}</th>
             <th style={{ width: "100px" }}>{strings.userDocumentFilesModal}</th>
+            <th style={{ width: "100px" }}>
+                {strings.createdAtFaDocumentFilesModal}
+            </th>
             {userState?.user?.role === USER_ROLES.ADMINISTRATOR && (
                 <th style={{ width: "100px" }}>{general.actions}</th>
             )}
@@ -231,12 +277,23 @@ function DocumentFilesModal() {
             <React.Fragment key={item.id}>
                 <tr>
                     <td>
-                        <CustomLink onClick={() => onSelect(item)}>
-                            {item.name}
+                        <CustomLink
+                            onClick={() => onDownload(item)}
+                            containerStyle={{ direction: "ltr" }}
+                            title={item.name}
+                        >
+                            {item.name.length > 30
+                                ? `${item.name.substring(0, 30)} ...`
+                                : item.name}
                         </CustomLink>
                     </td>
-                    <td>{item.description}</td>
+                    <td>
+                        <p style={{ wordWrap: "break-word" }}>
+                            {item.description ?? "-"}
+                        </p>
+                    </td>
                     <td>{`${item.userName} ${item.userFamily}`}</td>
+                    <td>{item.createdAtFa}</td>
                     {userState?.user?.role === USER_ROLES.ADMINISTRATOR && (
                         <td>
                             <button
@@ -268,7 +325,9 @@ function DocumentFilesModal() {
                                         </li>
                                         <li>
                                             <CustomLink
-                                                onClick={() => onRemove(item)}
+                                                onClick={(e) =>
+                                                    onRemove(e, item)
+                                                }
                                                 disabled={layoutState?.loading}
                                             >
                                                 {general.remove}
@@ -294,78 +353,100 @@ function DocumentFilesModal() {
             modalResult={modalResult}
             fullWidth={true}
         >
-            <AlertMessage message={message} />
-            <h4 className="text">{strings._subTitle}</h4>
-            <div className="block">
-                <Table
-                    renderHeader={renderHeader}
-                    renderItems={renderItems}
-                    style={{ marginBottom: "5rem" }}
-                />
+            <AlertMessage message={message} containerClassName="mb-30" />
+            <div className="grow-1 d-flex d-flex-column">
+                <h4 className="text">{strings._subTitle}</h4>
+                <div className="block grow-1">
+                    <Table
+                        renderHeader={renderHeader}
+                        renderItems={renderItems}
+                        style={{ marginBottom: "5rem" }}
+                    />
+                </div>
+                <div>
+                    {isAdd && (
+                        <div className="mt-30">
+                            <h4 className="text">{strings.addDocumentFile}</h4>
+                            <InputFileColumn
+                                field="fileDocumentFilesModal"
+                                strings={strings}
+                                accept=".jpg, .jpeg, .png, .tiff, .pdf, .doc, .docx"
+                                file={file}
+                                onChangeFile={(e) => onChangeFile(e)}
+                                containerStyle={{
+                                    maxWidth: "inherit",
+                                    marginBottom: "0",
+                                }}
+                                useForm={addForm}
+                            />
+                            <InputTextColumn
+                                field="descriptionDocumentFilesModal"
+                                strings={strings}
+                                useForm={addForm}
+                            />
+                            <div className="btns d-flex mt-10">
+                                <button
+                                    className="btn btn-success mx-rdir-10"
+                                    type="button"
+                                    disabled={layoutState?.loading || !file}
+                                    title={strings.addDocumentFile}
+                                    onClick={form?.handleSubmit(onSubmit)}
+                                >
+                                    {strings.addDocumentFile}
+                                </button>
+                                <button
+                                    className="btn btn-primary mx-rdir-10"
+                                    type="button"
+                                    disabled={layoutState?.loading}
+                                    title={strings.scan}
+                                    onClick={(e) => onScan(e)}
+                                >
+                                    {strings.scan}
+                                </button>
+                                <button
+                                    className="btn btn-border mx-rdir-10"
+                                    type="button"
+                                    disabled={layoutState?.loading}
+                                    title={general.back}
+                                    onClick={close}
+                                >
+                                    {general.back}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                    {!isAdd && (
+                        <div className="mt-30">
+                            <h4 className="text">{strings.editDocumentFile}</h4>
+                            <InputTextColumn
+                                field="descriptionDocumentFilesModal"
+                                strings={strings}
+                                useForm={editForm}
+                            />
+                            <div className="btns d-flex mt-10">
+                                <button
+                                    className="btn btn-success mx-rdir-10"
+                                    type="button"
+                                    disabled={layoutState?.loading}
+                                    title={strings.editDocumentFile}
+                                    onClick={form?.handleSubmit(onSubmit)}
+                                >
+                                    {strings.editDocumentFile}
+                                </button>
+                                <button
+                                    className="btn btn-border mx-rdir-10"
+                                    type="button"
+                                    title={general.cancel}
+                                    onClick={onEditCanclled}
+                                >
+                                    {general.cancel}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
-            <div className="block-border"></div>
-            {isAdd && (
-                <div className="mt-30">
-                    <h4 className="text">{strings.addDocumentFile}</h4>
-                    <InputFileColumn
-                        field="fileDocumentFilesModal"
-                        strings={strings}
-                        accept=".jpg, .jpeg, .png, .tiff, .pdf, .doc, .docx"
-                        file={file}
-                        onChangeFile={(e) => onChangeFile(e)}
-                        containerStyle={{
-                            maxWidth: "inherit",
-                            marginBottom: "0",
-                        }}
-                        useForm={addForm}
-                    />
-                    <InputTextColumn
-                        field="descriptionDocumentFilesModal"
-                        strings={strings}
-                        useForm={addForm}
-                    />
-                    <div className="btns d-flex mt-10">
-                        <button
-                            className="btn btn-success mx-rdir-10"
-                            type="button"
-                            disabled={layoutState?.loading}
-                            title={strings.addDocumentFile}
-                            onClick={form?.handleSubmit(onSubmit)}
-                        >
-                            {strings.addDocumentFile}
-                        </button>
-                    </div>
-                </div>
-            )}
-            {!isAdd && (
-                <div className="mt-30">
-                    <h4 className="text">{strings.editDocumentFile}</h4>
-                    <InputTextColumn
-                        field="descriptionDocumentFilesModal"
-                        strings={strings}
-                        useForm={editForm}
-                    />
-                    <div className="btns d-flex mt-10">
-                        <button
-                            className="btn btn-success mx-rdir-10"
-                            type="button"
-                            disabled={layoutState?.loading}
-                            title={strings.editDocumentFile}
-                            onClick={form?.handleSubmit(onSubmit)}
-                        >
-                            {strings.editDocumentFile}
-                        </button>
-                        <button
-                            className="btn btn-border mx-rdir-10"
-                            type="button"
-                            title={general.cancel}
-                            onClick={onEditCanclled}
-                        >
-                            {general.cancel}
-                        </button>
-                    </div>
-                </div>
-            )}
+            <PromptModal />
         </Modal>
     );
 }

@@ -11,5 +11,7 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array
      */
-    protected $except = [];
+    protected $except = [
+        '/a/document_files/store_via_scan/*'
+    ];
 }
