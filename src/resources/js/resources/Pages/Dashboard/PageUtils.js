@@ -12,7 +12,7 @@ export class PageUtils extends BasePageUtils {
         super("Dashboard", strings, useForm);
         this.entity = new Entity();
         this.initialPageProps = {
-            totalShares: 0,
+            summary: [],
         };
     }
 
@@ -47,7 +47,7 @@ export class PageUtils extends BasePageUtils {
             })
         );
         return {
-            totalShares: result?.totalShares ?? 0,
+            summary: result?.summary ?? [],
         };
     }
 }

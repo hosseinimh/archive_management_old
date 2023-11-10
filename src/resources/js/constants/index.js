@@ -7,6 +7,7 @@ import { USER_ROLES } from "./userRoles";
 import { NOTIFICATION_CATEGORIES } from "./notificationCategories";
 import { NOTIFICATION_SUB_CATEGORIES } from "./notificationSubCategories";
 import { YEARS } from "./years";
+import { YEAR_COLORS } from "./yearColors";
 import {
     BASE_PATH,
     ASSETS_PATH,
@@ -40,4 +41,5 @@ export {
     NOTIFICATION_CATEGORIES,
     NOTIFICATION_SUB_CATEGORIES,
     YEARS,
+    YEAR_COLORS,
 };

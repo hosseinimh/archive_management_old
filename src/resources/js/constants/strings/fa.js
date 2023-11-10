@@ -130,6 +130,8 @@ export const sidebar = {
 export const dashboardPage = {
     _title: "داشبورد",
     _subTitle: "سامانه در یک نگاه",
+    documents: "اسناد ثبت‌شده",
+    year: "سال",
 };
 
 export const errorsPage = {
